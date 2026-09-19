@@ -12,6 +12,7 @@ public class CannonController : MonoBehaviour
     [Header("Balística y Efectos")]
     public GameObject prefabBala;
     public GameObject prefabExplosion;
+    public CameraFollow camaraSeguidora;
 
     [Header("UI - Controles")]
     public Slider sliderHorizontal;
@@ -29,7 +30,7 @@ public class CannonController : MonoBehaviour
         sliderVertical.maxValue = 45f;
 
         sliderFuerza.minValue = 10f;
-        sliderFuerza.maxValue = 100f;
+        sliderFuerza.maxValue = 500f;
 
         if (sliderMasa != null)
         {
@@ -65,6 +66,10 @@ public class CannonController : MonoBehaviour
         if (Camera.main.GetComponent<CameraFollow>() != null)
         {
             Camera.main.GetComponent<CameraFollow>().objetivo = bala.transform;
+        }
+        if (camaraSeguidora != null)
+        {
+            camaraSeguidora.objetivo = bala.transform;
         }
     }
 }
