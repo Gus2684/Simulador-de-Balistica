@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void ActualizarCartel()
     {
-        textoReporte.text = $"--- REPORTE DE TIRO ---\n\n" +
+        textoReporte.text = $"-REPORTE DE TIRO-\n\n" +
                             $"Tiempo de vuelo: {repTiempo:F2} seg\n" +
                             $"Punto de impacto: {repPunto}\n" +
                             $"Vel. Relativa: {repVel:F2} m/s\n" +
