@@ -9,12 +9,15 @@ public class BulletTracker : MonoBehaviour
     private TextMeshProUGUI cartelEstadisticas;
     private bool yaImpacto = false;
 
+    private float tiempoInicio;
+
     public void Inicializar(TextMeshProUGUI cartel, GameObject prefabExplosion)
     {
         cartelEstadisticas = cartel;
         prefabImpacto = prefabExplosion;
         posicionInicial = transform.position;
         rb = GetComponent<Rigidbody>();
+        tiempoInicio = Time.time; 
 
         Destroy(gameObject, 10f);
     }
@@ -25,7 +28,7 @@ public class BulletTracker : MonoBehaviour
         {
             float distancia = Vector3.Distance(posicionInicial, transform.position);
             float velocidad = rb.linearVelocity.magnitude;
-            cartelEstadisticas.text = $"En vuelo...\nDistancia: {distancia:F2} m\nVelocidad: {velocidad:F2} m/s";
+            cartelEstadisticas.text = $"Vuelo...\nDist: {distancia:F2} m\nVel: {velocidad:F2} m/s";
         }
     }
 
@@ -34,13 +37,22 @@ public class BulletTracker : MonoBehaviour
         if (yaImpacto) return;
         yaImpacto = true;
 
+        float tiempoVuelo = Time.time - tiempoInicio;
+        Vector3 puntoImpacto = collision.contacts[0].point;
+        float velRelativa = collision.relativeVelocity.magnitude;
+        float impulso = collision.impulse.magnitude;
+
+        if (GameManager.Instancia != null)
+        {
+            GameManager.Instancia.MostrarReporte(tiempoVuelo, puntoImpacto, velRelativa, impulso);
+        }
+
         AudioSource audioClip = GetComponent<AudioSource>();
         if (audioClip != null) audioClip.Play();
 
         if (prefabImpacto != null)
         {
-            ContactPoint contacto = collision.contacts[0];
-            GameObject efecto = Instantiate(prefabImpacto, contacto.point, Quaternion.LookRotation(contacto.normal));
+            GameObject efecto = Instantiate(prefabImpacto, puntoImpacto, Quaternion.LookRotation(collision.contacts[0].normal));
             Destroy(efecto, 2f);
         }
     }

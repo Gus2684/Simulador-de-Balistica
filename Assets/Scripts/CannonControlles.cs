@@ -17,6 +17,7 @@ public class CannonController : MonoBehaviour
     public Slider sliderHorizontal;
     public Slider sliderVertical;
     public Slider sliderFuerza;
+    public Slider sliderMasa;
     public TextMeshProUGUI textoEstadisticas;
 
     void Start()
@@ -29,6 +30,12 @@ public class CannonController : MonoBehaviour
 
         sliderFuerza.minValue = 10f;
         sliderFuerza.maxValue = 100f;
+
+        if (sliderMasa != null)
+        {
+            sliderMasa.minValue = 1f;
+            sliderMasa.maxValue = 20f;
+        }
     }
 
     void Update()
@@ -42,6 +49,14 @@ public class CannonController : MonoBehaviour
         GameObject bala = Instantiate(prefabBala, firePoint.position, firePoint.rotation);
 
         Rigidbody rbBala = bala.GetComponent<Rigidbody>();
+
+        float masaElegida = (sliderMasa != null) ? sliderMasa.value : 1f;
+
+        rbBala.mass = masaElegida;
+
+        float nuevoTamano = 0.5f + (masaElegida * 0.1f);
+        bala.transform.localScale = new Vector3(nuevoTamano, nuevoTamano, nuevoTamano);
+
         rbBala.AddForce(firePoint.forward * sliderFuerza.value, ForceMode.Impulse);
 
         BulletTracker tracker = bala.AddComponent<BulletTracker>();
