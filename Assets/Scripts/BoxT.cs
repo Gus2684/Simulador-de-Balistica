@@ -2,11 +2,21 @@ using UnityEngine;
 
 public class BoxTarget : MonoBehaviour
 {
-    void OnJointBreak(float breakForce)
+    private bool yaContada = false; 
+
+    void OnCollisionEnter(Collision collision)
     {
-        if (GameManager.Instancia != null)
+        if (!yaContada)
         {
-            GameManager.Instancia.SumarCajaDerribada();
+            if (collision.gameObject.GetComponent<BulletTracker>() != null)
+            {
+                yaContada = true;
+
+                if (GameManager.Instancia != null)
+                {
+                    GameManager.Instancia.SumarCajaDerribada();
+                }
+            }
         }
     }
 }
