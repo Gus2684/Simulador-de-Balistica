@@ -71,6 +71,7 @@ public class CannonController : MonoBehaviour
         {
             camaraSeguidora.objetivo = bala.transform;
         }
+        GameManager.Instancia.ConfigurarDisparoActual(sliderHorizontal.value, sliderVertical.value, sliderFuerza.value, rbBala.mass, firePoint.position);
     }
 }
 
