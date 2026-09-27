@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+
     public void SumarCajaDerribada()
     {
         cajasDerribadas++;
@@ -101,7 +102,9 @@ public class GameManager : MonoBehaviour
                 var d = lista[i];
                 string aciertoTxt = d.acierto ? "<color=green>Acierto</color>" : "<color=red>Fallo</color>";
 
-                textoListaHistorial.text += $"> {aciertoTxt} | {d.distancia:F1}m | Cajas: {d.cajasAfectadas}\n";
+                textoListaHistorial.text += $"> {aciertoTxt} | Dist: {d.distancia:F1}m | Cajas: {d.cajasAfectadas}\n";
+
+                textoListaHistorial.text += $"   Ang: ({d.anguloH}°, {d.anguloV}°) | F: {d.fuerza} | M: {d.masa}kg\n\n";
             }
         }
         else
